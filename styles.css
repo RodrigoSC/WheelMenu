@@ -1,0 +1,29 @@
+
+.pie path {
+	stroke-width: 0;
+}
+
+.pie .slice0 {
+	fill: #D3004C;
+}
+
+.pie .slice1 {
+	fill:#417215;
+}
+
+.pie .slice2 {
+	fill:#59A522;
+}
+
+.pie .slice3 {
+	fill: #218C79;
+}
+
+.pie .slice4 {
+	fill: #F2CD00;
+}
+
+.pie .slice5 {
+	fill: #F3541F;
+}
+

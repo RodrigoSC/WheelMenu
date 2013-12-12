@@ -1,0 +1,19 @@
+{
+  "name": "DonutSelector",
+  "version": "0.0.1",
+  "authors": [
+    "Rodrigo Sousa Coutinho <sousa.coutinho@gmail.com>"
+  ],
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.0.3"
+  }
+}
