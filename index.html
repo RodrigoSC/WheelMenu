@@ -3,36 +3,22 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Donut</title>
-	<link rel="icon" type="image/png" href="favicon.png">
 	<link rel="stylesheet" href="styles.css" media="all">
 	<script src="bower_components/jquery/jquery.js"></script>
+	<script src="donutSelector.js"></script>
 </head>
 <body>
 	<div style="width: 400px" id='donut'>
 	<svg viewBox="0 0 270 270"  preserveAspectRatio="xMinYMin meet" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="pie">
  	<g>
 		<rect width="270" height="270" style="fill:rgb(200,200,200);" />		
-		<!--<circle cx="0" cy="0" r="3" fill="red" stroke="blue" stroke-width="1"  />-->
 	</g>
 	</svg>
 	</div>
 	<script src="http://localhost:35729/livereload.js"></script>
 <script>
 $(function() {
-	var group = $('#donut > svg> g');
-	for (var i = 0; i < 6; i++) {
-		dOrig = 'm50,100l-50,-86a100,100 0 0,1 100,0l-50,86z';
-		dChanged = 'm50,100l-65,-112a112,112 0 0,1 130,0l-65,112z';
-		tOrig = 'translate(85,35) rotate(' + (i*60) + ', 50, 100)';
-		tChanged = 'scale (1.2, 1.4) translate(75,10) rotate(' + (i*60) + ', 50, 100)';
-		group.append('<g class="slice' + i + '"><path d="' + dOrig + '"' +
-			'transform="' + tOrig + '"' +
-			'onmouseover=\'this.setAttribute("d","' + dChanged + '");\'' +
-			'onmouseout=\'this.setAttribute("d","' + dOrig + '");\'/></g>');
-			//'onmouseover=\'this.setAttribute("transform","' + tChanged + '");\'' +
-			//'onmouseout=\'this.setAttribute("transform","'+ tOrig + '");\'/>');
-	}
-	$("#donut").html($("#donut").html()); // hack to render the SVG
+	donutSelector.init('#donut', 1, '€135', ['&#xf001','&#xf015;','&#xf0fa;','&#xf072;','&#xf07a;','&#xf0f5;']);
 });
 </script>
 </body>
