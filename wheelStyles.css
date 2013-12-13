@@ -1,5 +1,7 @@
 @import url(http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 
+svg.pie { max-height: 100%; }
+
 .pie path {
 	stroke-width: 0;
 }

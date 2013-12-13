@@ -1,5 +1,5 @@
 {
-  "name": "DonutSelector",
+  "name": "WheelMenu",
   "version": "0.0.1",
   "authors": [
     "Rodrigo Sousa Coutinho <sousa.coutinho@gmail.com>"
@@ -14,6 +14,7 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.0.3"
+    "jquery": "~2.0.3",
+    "d3": "~3.3.11"
   }
 }

@@ -15,7 +15,7 @@ module.exports = function(grunt) {
 
 		watch: {
 			main: {
-				files: [ 'index.html','Gruntfile.js', 'pie.svg', 'styles.css', 'donutSelector.js'],
+				files: [ 'index.html','Gruntfile.js', 'pie.svg', 'wheelStyles.css', 'wheelMenu.js'],
 				options: {
 					livereload: true
 				}

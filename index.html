@@ -3,22 +3,24 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Donut</title>
-	<link rel="stylesheet" href="styles.css" media="all">
+	<link rel="stylesheet" href="wheelStyles.css" media="all">
 	<script src="bower_components/jquery/jquery.js"></script>
-	<script src="donutSelector.js"></script>
+	<script src="bower_components/d3/d3.js"></script>
+	<script src="wheelMenu.js"></script>
 </head>
 <body>
-	<div style="width: 400px" id='donut'>
-	<svg viewBox="0 0 270 270"  preserveAspectRatio="xMinYMin meet" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="pie">
- 	<g>
-		<rect width="270" height="270" style="fill:rgb(200,200,200);" />		
-	</g>
-	</svg>
+	<div style="width: 400px;" id='donut'>
+	</div>
+	<div id="console">
+		I'll write clever stuff here
 	</div>
 	<script src="http://localhost:35729/livereload.js"></script>
 <script>
 $(function() {
-	donutSelector.init('#donut', 1, '€135', ['&#xf001','&#xf015;','&#xf0fa;','&#xf072;','&#xf07a;','&#xf0f5;']);
+	wheelMenu.init('#donut', 1, '€135', ['&#xf001','&#xf015;','&#xf0fa;','&#xf072;','&#xf07a;','&#xf0f5;']);
+	wheelMenu.onSelect = function(slice) {
+		$('#console').text('You clicked slice ' + slice);
+	};
 });
 </script>
 </body>
