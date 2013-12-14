@@ -6,7 +6,7 @@ var minHeight = 100;
 var maxHeight = 115;
 var midPoint = maxHeight + 5;
 var centerRadius = 40;
-
+var animationDuration = 50;
 var that = this;
 
 that.canvas = {};
@@ -53,7 +53,10 @@ var init = function (divid, selectedSlice, text, icons) {
 that.updatePath = function (i, path) {
 	var pelem = that.canvas.select('g.slice'+i);
 	if (!pelem.classed('selected'))
-		pelem.select('path').attr('d', path);
+		pelem.select('path')
+			.transition()
+			.duration(animationDuration)
+			.attr('d', path);
 };
 
 that.selectSlice = function (slice) {
@@ -64,16 +67,23 @@ that.selectSlice = function (slice) {
 	that.canvas.select('g.selected')
 		.classed('selected', false)
 		.select('path')
+		.transition()
+		.duration(animationDuration)
 		.attr('d', dOrig);
 	that.canvas.select('g.slice' + slice)
 		.classed('selected',true)
 		.select('path')
+		.transition()
+		.duration(animationDuration)
 		.attr('d', dChanged);
 	that.canvas.select('g.slice' + slice)
 		.select('text.icon')
+		.transition()
+		.duration(animationDuration)
 		.attr('transform', function (d) {return 'translate(0, -10) ' + rotate(d);});
 
-	that.canvas.select('circle.center').classed('slice'+slice, true);
+	that.canvas.select('circle.center')
+		.classed('slice'+slice, true);
 	that.onSelect(slice);
 };
 
@@ -89,6 +99,21 @@ that.setText = function (text) {
 		textSize --;
 	}
 	centerText(textElem, midPoint, midPoint);
+};
+
+that.spin = function (turns, endSlice) {
+	var oldDuration = animationDuration;
+	animationDuration = 0;
+	var i = 0;
+	turns = Math.floor(turns / 6) * 6 + endSlice;
+	var go = function () {
+		i = i + 1;
+		if (i<turns) d3.timer(go, d3.ease('quad-in')(i/turns)*200);
+		else animationDuration = oldDuration;
+		that.selectSlice(i % 6);
+		return true;
+	};
+	go();
 };
 
 var rotate = function (d) {

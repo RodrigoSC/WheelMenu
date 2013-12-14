@@ -19,12 +19,12 @@
 	<script src="http://localhost:35729/livereload.js"></script>
 <script>
 $(function() {
-	var menu = new wheelMenu('#donut', 1, '€143.00', ['\uf001','\uf015','\uf0fa','\uf072','\uf07a','\uf0f5']);
-	menu.onSelect = function(slice) {
+	window.menu = new wheelMenu('#donut', 1, '€143.00', ['\uf001','\uf015','\uf0fa','\uf072','\uf07a','\uf0f5']);
+	window.menu.onSelect = function(slice) {
 		$('#console').text('You clicked slice ' + slice);
 	};
-	var menu2 = new wheelMenu('#donut2', 1, '€143.00', ['\uf001','\uf015','\uf001','\uf072','\uf07a','\uf0f5']);
-	menu2.onSelect = function(slice) {
+	window.menu2 = new wheelMenu('#donut2', 3, '€350.00', ['\uf026','\uf021','\uf022','\uf023','\uf024','\uf025']);
+	window.menu2.onSelect = function(slice) {
 		$('#console').text('You clicked ' + slice);
 	};
 });
