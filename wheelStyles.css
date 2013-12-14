@@ -36,6 +36,10 @@ svg.pie text {
 	text-shadow: 1px 1px 1px #888;
 }
 
+svg.pie text.centerText {
+	font-size: 1.3em;
+}
+
 svg.pie text.icon {
 	font-family: FontAwesome;
 }

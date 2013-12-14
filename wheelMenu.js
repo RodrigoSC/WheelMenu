@@ -1,28 +1,33 @@
-(function(wheelMenu){
+window.wheelMenu = function(divid, selectedSlice, text, icons){
 
 var dOrig, dChanged;
-var parentId = '';
 var iconPos = {x: 0, y: -68};
-var canvas = {};
 var minHeight = 100;
 var maxHeight = 115;
 var midPoint = maxHeight + 5;
+var centerRadius = 40;
 
-wheelMenu.init = function (divid, selectedSlice, text, icons) { 
+var that = this;
+
+that.canvas = {};
+
+var init = function (divid, selectedSlice, text, icons) { 
 	dOrig = buildPath(minHeight);
 	dChanged = buildPath(maxHeight);
-	parentId = divid;
-	canvas = d3.select(parentId).append('svg')
+	that.canvas = d3.select(divid).append('svg')
 		.attr('viewBox', '0 0 ' + midPoint*2 + ' ' + midPoint*2)
 		.attr('preserveAspectRatio','xMinYMin meet')
 		.classed('pie', true);
 	for (var i = 0; i < 6; i++) {
 		var tOrig = 'translate(' + midPoint + ',' + midPoint + ') rotate(' + (i*60) + ')';
-		var g = canvas.append('g')
+		var g = that.canvas.append('g')
+			.datum({slice: i})
 			.classed('slice' + i, true)
-			.attr('onmouseout', 'wheelMenu.updatePath(this, "' + dOrig + '");')
-			.attr('onmouseover', 'wheelMenu.updatePath(this, "' + dChanged + '");')
-			.attr('onmousedown', 'wheelMenu.selectSlice('+i+');')
+			/* jshint -W083 */
+			.on('mouseout', function(d) {that.updatePath(d.slice, dOrig);})
+			.on('mouseover', function(d) {that.updatePath(d.slice, dChanged);})
+			.on('click', function(d) {that.selectSlice(d.slice);})
+			/* jshint +W083 */
 			.attr('transform', tOrig);
 		g.append('path')
 			.attr('d', dOrig);
@@ -31,54 +36,63 @@ wheelMenu.init = function (divid, selectedSlice, text, icons) {
 			.text(icons[i])
 			.datum({slice: i});
 	}
-	canvas.append('circle')
+	that.canvas.append('circle')
 		.classed('center', true)
 		.attr('cx', midPoint)
 		.attr('cy', midPoint)
-		.attr('r', 40);
-	canvas.append('text')
+		.attr('r', centerRadius);
+	that.canvas.append('text')
 		.classed('centerText', true)
 		.text('Hello');
-	setText(text);
-	centerText(canvas.selectAll('text.icon'), iconPos.x, iconPos.y);
-	canvas.selectAll('text.icon').attr('transform', function(d) {return 'rotate(-'+ (d.slice *60) + ', '+ iconPos.x +', ' + iconPos.y + ')';});
-	wheelMenu.selectSlice(selectedSlice);
+	that.setText(text);
+	centerText(that.canvas.selectAll('text.icon'), iconPos.x, iconPos.y);
+	that.canvas.selectAll('text.icon').attr('transform', function(d) {return 'rotate(-'+ (d.slice *60) + ', '+ iconPos.x +', ' + iconPos.y + ')';});
+	that.selectSlice(selectedSlice);
 };
 
-wheelMenu.updatePath = function (elem, path) {
-	var pelem = d3.select(elem);
+that.updatePath = function (i, path) {
+	var pelem = that.canvas.select('g.slice'+i);
 	if (!pelem.classed('selected'))
 		pelem.select('path').attr('d', path);
 };
 
-wheelMenu.selectSlice = function (slice) {
-	canvas.select('g.selected')
+that.selectSlice = function (slice) {
+	that.canvas.select('g.selected')
+		.each(function(d,i){that.canvas.select('circle.center').classed('slice'+d.slice, false);})
 		.select('text.icon')
 		.attr('transform', rotate);
-	canvas.select('g.selected')
+	that.canvas.select('g.selected')
 		.classed('selected', false)
 		.select('path')
 		.attr('d', dOrig);
-	canvas.select('g.slice' + slice)
+	that.canvas.select('g.slice' + slice)
 		.classed('selected',true)
 		.select('path')
 		.attr('d', dChanged);
-	canvas.select('g.slice' + slice)
+	that.canvas.select('g.slice' + slice)
 		.select('text.icon')
 		.attr('transform', function (d) {return 'translate(0, -10) ' + rotate(d);});
-	$(parentId + ' circle.center').attr('class', 'center slice' + slice);
-	wheelMenu.onSelect(slice);
+
+	that.canvas.select('circle.center').classed('slice'+slice, true);
+	that.onSelect(slice);
 };
 
-wheelMenu.onSelect = function (slice) {};
+that.onSelect = function (slice) {};
+
+that.setText = function (text) {
+	var textElem = that.canvas.select('text.centerText');
+	textElem.style('font-size', null);
+	textElem.text(text);
+	var textSize = parseInt(textElem.style('font-size'));
+	while ($(textElem.node()).width() > (centerRadius*2 - 15) && textSize > 3) {
+		textElem.style('font-size', textSize + 'px');
+		textSize --;
+	}
+	centerText(textElem, midPoint, midPoint);
+};
 
 var rotate = function (d) {
 	return 'rotate(-'+ (d.slice *60) + ', '+ iconPos.x +', ' + iconPos.y + ')';
-};
-
-var setText = function (text) {
-	canvas.select('text.centerText').text(text);
-	centerText(canvas.select('text.centerText'), midPoint, midPoint);
 };
 
 var centerText = function (textElem, x, y) {
@@ -95,12 +109,6 @@ var buildPath = function(height) {
 		'l-' +  (height * trig.cos) + ',' + (height * trig.sin) + 'z';
 };
 
+init(divid, selectedSlice, text, icons);
 
-wheelMenu.boxText = function (textElem) {
-	$(parentId + ' > svg').append('<rect x="'+ textElem.attr('x')  +'" y="'+ (textElem.attr('y') - textElem.height()) +'" '+
-			'width="'+ textElem.width() +'" height="'+ textElem.height() +'" ' +
-			'style="fill:blue;stroke:pink;stroke-width:1;fill-opacity:0.1;stroke-opacity:0.9" />');
-	$(parentId).html($(parentId).html()); // hack to render the SVG
 };
-
-})(window.wheelMenu = window.wheelMenu  || {});
