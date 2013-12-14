@@ -2,43 +2,45 @@
 
 svg.pie { max-height: 100%; }
 
-.pie path {
+svg.pie path {
 	stroke-width: 0;
 }
 
-.pie .slice0 {
-	fill: #D3004C;
+svg.pie .slice0 {
+	fill: #c4b891;
 }
 
-.pie .slice1 {
-	fill:#417215;
+svg.pie .slice1 {
+	fill: #D44C5C;	
 }
 
-.pie .slice2 {
-	fill:#59A522;
+svg.pie .slice2 {
+	fill: #f09156;	
 }
 
-.pie .slice3 {
-	fill: #218C79;
+svg.pie .slice3 {
+	fill: #45B09A;
 }
 
-.pie .slice4 {
-	fill: #F2CD00;
+svg.pie .slice4 {
+	fill: #80ad61;
 }
 
-.pie .slice5 {
-	fill: #F3541F;
+svg.pie .slice5 {
+	fill: #abd3d9;
 }
 
-.pie text {
+svg.pie text {
 	font-family: arial;
 	fill: white;
+	text-shadow: 1px 1px 1px #888;
 }
 
-.pie text.icon {
+svg.pie text.icon {
 	font-family: FontAwesome;
 }
 
-.pie .selected text.icon {
-	font-size: 1.2em;
+svg.pie .selected text.icon {
+	font-size: 1.3em;
 }
+

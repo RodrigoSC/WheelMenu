@@ -2,7 +2,7 @@
 
 var dOrig, dChanged;
 var parentId = '';
-var iconPos = {x: 0, y: -60};
+var iconPos = {x: 0, y: -68};
 var canvas = {};
 var minHeight = 100;
 var maxHeight = 115;
@@ -20,9 +20,9 @@ wheelMenu.init = function (divid, selectedSlice, text, icons) {
 		var tOrig = 'translate(' + midPoint + ',' + midPoint + ') rotate(' + (i*60) + ')';
 		var g = canvas.append('g')
 			.classed('slice' + i, true)
-			.attr('onmouseover', 'wheelMenu.updatePath(this, "' + dChanged + '");')
 			.attr('onmouseout', 'wheelMenu.updatePath(this, "' + dOrig + '");')
-			.attr('onmouseup', 'wheelMenu.selectSlice('+i+');')
+			.attr('onmouseover', 'wheelMenu.updatePath(this, "' + dChanged + '");')
+			.attr('onmousedown', 'wheelMenu.selectSlice('+i+');')
 			.attr('transform', tOrig);
 		g.append('path')
 			.attr('d', dOrig);
