@@ -38,3 +38,7 @@ svg.pie { max-height: 100%; }
 .pie text.icon {
 	font-family: FontAwesome;
 }
+
+.pie .selected text.icon {
+	font-size: 1.2em;
+}

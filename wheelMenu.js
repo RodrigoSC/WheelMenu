@@ -1,60 +1,100 @@
 (function(wheelMenu){
 
-var dOrig = 'm50,100l-50,-86a100,100 0 0,1 100,0l-50,86z';
-var dChanged = 'm50,100l-65,-112a112,112 0 0,1 130,0l-65,112z';
+var dOrig, dChanged;
 var parentId = '';
-var iconPos = {x: 50, y: 35};
-
-wheelMenu.onSelect = function (slice) {};
+var iconPos = {x: 0, y: -60};
+var canvas = {};
+var minHeight = 100;
+var maxHeight = 115;
+var midPoint = maxHeight + 5;
 
 wheelMenu.init = function (divid, selectedSlice, text, icons) { 
+	dOrig = buildPath(minHeight);
+	dChanged = buildPath(maxHeight);
 	parentId = divid;
-	$(parentId).append('<svg viewBox="0 0 270 270" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" xmlns:xlink="http://www.w3.org/1999/xlink" class="pie"></svg>');
-	var group = $(parentId + ' > svg');
+	canvas = d3.select(parentId).append('svg')
+		.attr('viewBox', '0 0 ' + midPoint*2 + ' ' + midPoint*2)
+		.attr('preserveAspectRatio','xMinYMin meet')
+		.classed('pie', true);
 	for (var i = 0; i < 6; i++) {
-		var tOrig = 'translate(85,35) rotate(' + (i*60) + ', 50, 100)';
-		group.append('<g class="slice' + i + '"' +
-			'onmouseover=\'wheelMenu.updatePath(this, "' + dChanged + '");\'' +
-			'onmouseout=\'wheelMenu.updatePath(this, "' + dOrig + '");\'' +
-			'onmouseup=\'wheelMenu.selectSlice('+i+');\'' +
-			'transform="' + tOrig + '"' + 
-			'>' +
-			'<path d="' + dOrig + '"' +
-			'/>' +
-			'<text class="icon"' +
-			'transform="rotate(-'+ (i*60) + ', '+ iconPos.x +', ' + iconPos.y + ')"' +
-			'>' + icons[i] + '</text>' +
-			'</g>');
+		var tOrig = 'translate(' + midPoint + ',' + midPoint + ') rotate(' + (i*60) + ')';
+		var g = canvas.append('g')
+			.classed('slice' + i, true)
+			.attr('onmouseover', 'wheelMenu.updatePath(this, "' + dChanged + '");')
+			.attr('onmouseout', 'wheelMenu.updatePath(this, "' + dOrig + '");')
+			.attr('onmouseup', 'wheelMenu.selectSlice('+i+');')
+			.attr('transform', tOrig);
+		g.append('path')
+			.attr('d', dOrig);
+		g.append('text')
+			.classed('icon', true)
+			.text(icons[i])
+			.datum({slice: i});
 	}
-	group.append('<circle class="center" cx="135" cy="135" r="40"/>');
-	group.append('<text class="centerText" x="135" y="135">Hello</text>');
-	$(parentId).html($(parentId).html()); // hack to render the SVG
-	centerText($('text.icon'), iconPos.x, iconPos.y); // must be done after it's drawn
-	wheelMenu.selectSlice(selectedSlice);
+	canvas.append('circle')
+		.classed('center', true)
+		.attr('cx', midPoint)
+		.attr('cy', midPoint)
+		.attr('r', 40);
+	canvas.append('text')
+		.classed('centerText', true)
+		.text('Hello');
 	setText(text);
+	centerText(canvas.selectAll('text.icon'), iconPos.x, iconPos.y);
+	canvas.selectAll('text.icon').attr('transform', function(d) {return 'rotate(-'+ (d.slice *60) + ', '+ iconPos.x +', ' + iconPos.y + ')';});
+	wheelMenu.selectSlice(selectedSlice);
 };
 
 wheelMenu.updatePath = function (elem, path) {
-	var pelem = $(elem).children('path');
-	if (pelem.attr('class') !== 'selected') pelem.attr('d', path);
+	var pelem = d3.select(elem);
+	if (!pelem.classed('selected'))
+		pelem.select('path').attr('d', path);
 };
 
 wheelMenu.selectSlice = function (slice) {
-	$(parentId + ' > svg path.selected').removeAttr('class').attr('d', dOrig);
-	$(parentId + ' g.slice' + slice).children('path').attr('class','selected').attr('d', dChanged);
+	canvas.select('g.selected')
+		.select('text.icon')
+		.attr('transform', rotate);
+	canvas.select('g.selected')
+		.classed('selected', false)
+		.select('path')
+		.attr('d', dOrig);
+	canvas.select('g.slice' + slice)
+		.classed('selected',true)
+		.select('path')
+		.attr('d', dChanged);
+	canvas.select('g.slice' + slice)
+		.select('text.icon')
+		.attr('transform', function (d) {return 'translate(0, -10) ' + rotate(d);});
 	$(parentId + ' circle.center').attr('class', 'center slice' + slice);
 	wheelMenu.onSelect(slice);
 };
 
+wheelMenu.onSelect = function (slice) {};
+
+var rotate = function (d) {
+	return 'rotate(-'+ (d.slice *60) + ', '+ iconPos.x +', ' + iconPos.y + ')';
+};
+
 var setText = function (text) {
-	$(parentId + ' > svg text.centerText').text(text);
-	centerText($(parentId + ' > svg text.centerText'), 135, 135);
+	canvas.select('text.centerText').text(text);
+	centerText(canvas.select('text.centerText'), midPoint, midPoint);
 };
 
 var centerText = function (textElem, x, y) {
-	textElem.attr('x', x - textElem.width()/2);
-	textElem.attr('y', y + textElem.height()/3); // over 3 to compensate ascend. Totally made up...
+	textElem.attr('x', x - $(textElem.node()).width()/2);
+	textElem.attr('y', y + $(textElem.node()).height()/3); // over 3 to compensate ascend. Totally made up...
 };
+
+var buildPath = function(height) {
+	var trig = {cos: 0.5, sin: 0.866};
+
+	return 'm0,0' +
+		'l-' + (height * trig.cos) + ',-' + (height * trig.sin) +
+		'a' + height + ',' + height + ' 0 0,1 ' + height + ',0' +
+		'l-' +  (height * trig.cos) + ',' + (height * trig.sin) + 'z';
+};
+
 
 wheelMenu.boxText = function (textElem) {
 	$(parentId + ' > svg').append('<rect x="'+ textElem.attr('x')  +'" y="'+ (textElem.attr('y') - textElem.height()) +'" '+
