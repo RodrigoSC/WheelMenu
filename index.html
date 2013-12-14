@@ -3,18 +3,30 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Wheel Menu</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" scheme=""/>
+	<link type="image/png" rel="shortcut icon" href="favicon.png" />	
 	<link rel="stylesheet" href="wheelStyles.css" media="all">
 	<script src="bower_components/jquery/jquery.js"></script>
 	<script src="bower_components/d3/d3.js"></script>
 	<script src="wheelMenu.js"></script>
+	<style>
+.wheelMenu {
+	max-width:400px;
+	width: 100%;
+}
+	</style>
 </head>
 <body>
-	<div style="width: 400px; float: left;" id='donut'>
+	<div id='donut' class='wheelMenu'>
 	</div>
-	<div style="width: 400px; float: left;" id='donut2'>
+	<div>
+		<input id="turns" value="50" style="width: 20px;"/> turns and stop on <input id="slice" value="2" style="width: 20px;"/>
+		<button onclick="menu.spin(parseInt($('#turns').val()), parseInt($('#slice').val()));">Spin!</button>
 	</div>
 	<div id="console" style="float:clear;">
 		I'll write clever stuff here
+	</div>
+	<div id='donut2' class='wheelMenu'>
 	</div>
 	<script src="http://localhost:35729/livereload.js"></script>
 <script>
