@@ -14,10 +14,17 @@
 	max-width:400px;
 	width: 100%;
 }
+
+body {
+	font-family: arial;
+}
 	</style>
 </head>
 <body>
 	<div id='donut' class='wheelMenu'>
+	</div>
+	<div>
+		Show this text: <input id="innerText" type="text" value="Type something here!" onkeyup="menu.setText($('#innerText').val());"/>
 	</div>
 	<div>
 		<input id="turns" value="50" style="width: 20px;"/> turns and stop on <input id="slice" value="2" style="width: 20px;"/>
