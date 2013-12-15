@@ -1,6 +1,8 @@
 #Introduction
 **WheelMenu** is a circular menu aimed at mobile that allows you to quickly select from a small set of options quickly and with your thumb.
 
+You can see an example of the **WheelMenu** running in [jsFiddle](http://jsfiddle.net/RodrigoSC/8aHSf/embedded/result/).
+
 Right now the menu only works for 6 slices, but [let me know](https://github.com/RodrigoSC/WheelMenu/issues) if you need other number of slices.
 
 Credits to the **WheelMenu** design go to [Tiago Simões](https://plus.google.com/u/1/113199224625543479193/posts). 

@@ -1,16 +1,20 @@
 {
-  "name": "WheelMenu",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.html",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Rodrigo Coutinho",
-  "license": "BSD-2-Clause",
-  "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-connect": "~0.5.0"
-  }
+	"name": "WheelMenu",
+	"version": "0.0.1",
+	"description": "",
+	"main": "index.html",
+	"repository" : {
+		"type" : "git",
+		"url" : "https://github.com/RodrigoSC/WheelMenu.git"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Rodrigo Coutinho",
+	"license": "BSD-2-Clause",
+	"devDependencies": {
+		"grunt": "~0.4.2",
+		"grunt-contrib-watch": "~0.5.3",
+		"grunt-contrib-connect": "~0.5.0"
+	}
 }
