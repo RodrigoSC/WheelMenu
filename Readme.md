@@ -5,9 +5,13 @@ You can see an example of the **WheelMenu** running in [jsFiddle](http://jsfiddl
 
 Right now the menu only works for 6 slices, but [let me know](https://github.com/RodrigoSC/WheelMenu/issues) if you need other number of slices.
 
-Credits to the **WheelMenu** design go to [Tiago Simões](https://plus.google.com/u/1/113199224625543479193/posts). 
+Credits to the **WheelMenu** original design go to [Tiago Simões](https://plus.google.com/u/1/113199224625543479193/posts) and [Daniel Nobre](https://plus.google.com/116975587122912265118/posts). 
 
 #Using the menu
+
+If you're using the [OutSystems Platform](http://www.outsystems.com/), get the [WheelMenu component](http://www.outsystems.com/forge/component/487/wheelmenu/) from the Community.
+
+If not, keep reading:
 
 ## Running the example
 If you have [npm](https://npmjs.org/) and [bower](http://bower.io/), just clone the repository

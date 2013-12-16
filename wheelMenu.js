@@ -78,8 +78,6 @@ that.selectSlice = function (slice) {
 		.attr('d', dChanged);
 	that.canvas.select('g.slice' + slice)
 		.select('text.icon')
-		.transition()
-		.duration(animationDuration)
 		.attr('transform', function (d) {return 'translate(0, -10) ' + rotate(d);});
 
 	that.canvas.select('circle.center')
